@@ -3,22 +3,23 @@
             [muuntaja.core :as m]
             [muuntaja.middleware :as middleware]
             [muuntaja.core])
-  (:import (java.util Date)))
+  (:import (java.util Date)
+           (clojure.lang ExceptionInfo)))
 
 (defn echo [request]
   {:status 200
-   :body (:body-params request)})
+   :body   (:body-params request)})
 
 (defn async-echo [request respond _]
   (respond
     {:status 200
-     :body (:body-params request)}))
+     :body   (:body-params request)}))
 
 (defn ->request [content-type accept accept-charset body]
-  {:headers {"content-type" content-type
+  {:headers {"content-type"   content-type
              "accept-charset" accept-charset
-             "accept" accept}
-   :body body})
+             "accept"         accept}
+   :body    body})
 
 (deftest middleware-test
   (let [m (m/create)
@@ -91,11 +92,11 @@
           (testing "on decoding exception"
             (let [app (middleware/wrap-format
                         (constantly
-                          {:status 200
-                           :body (m/encode "application/edn" {:kikka 123})
+                          {:status  200
+                           :body    (m/encode "application/edn" {:kikka 123})
                            :headers {"Content-Type" "application/json"}}))]
               (is (thrown-with-msg?
-                    Exception
+                    ExceptionInfo
                     #"Malformed application/json response"
                     (m/decode-response-body (app {}))))))
 
@@ -103,17 +104,16 @@
             (let [app (middleware/wrap-format
                         (constantly
                           {:status 200
-                           :body (m/encode "application/edn" {:kikka 123})}))]
-              (is (thrown-with-msg?
-                    Exception
-                    #"No Content-Type found"
-                    (m/decode-response-body (app {}))))))
+                           :body   (m/encode "application/edn" {:kikka 123})}))]
+              (is (thrown-with-msg? ExceptionInfo
+                                    #"Malformed application/json response."
+                                    (m/decode-response-body (app {}))))))
 
           (testing "when no decoder is found"
             (let [app (middleware/wrap-format
                         (constantly
-                          {:status 200
-                           :body (m/encode "application/edn" {:kikka 123})
+                          {:status  200
+                           :body    (m/encode "application/edn" {:kikka 123})
                            :headers {"Content-Type" "application/json2"}}))]
               (is (thrown-with-msg?
                     Exception
@@ -203,9 +203,9 @@
     (testing "runtime options for encoding & decoding"
       (testing "forcing a content-type on a handler (bypass negotiate)"
         (let [echo-edn (fn [request]
-                         {:status 200
+                         {:status                200
                           :muuntaja/content-type "application/edn"
-                          :body (:body-params request)})
+                          :body                  (:body-params request)})
               app (middleware/wrap-format echo-edn)
               request (->request "application/json" "application/json" nil "{\"kikka\":42}")
               response (-> request app)]
@@ -233,11 +233,11 @@
 (deftest wrap-params-test
   (testing "sync"
     (let [mw (middleware/wrap-params identity)]
-      (is (= {:params {:a 1, :b {:c 1}}
+      (is (= {:params      {:a 1, :b {:c 1}}
               :body-params {:b {:c 1}}}
-             (mw {:params {:a 1}
+             (mw {:params      {:a 1}
                   :body-params {:b {:c 1}}})))
-      (is (= {:params {:b {:c 1}}
+      (is (= {:params      {:b {:c 1}}
               :body-params {:b {:c 1}}}
              (mw {:body-params {:b {:c 1}}})))
       (is (= {:body-params [1 2 3]}
@@ -245,9 +245,9 @@
   (testing "async"
     (let [mw (middleware/wrap-params (fn [request respond _] (respond request)))
           respond (promise), raise (promise)]
-      (mw {:params {:a 1}
+      (mw {:params      {:a 1}
            :body-params {:b {:c 1}}} respond raise)
-      (is (= {:params {:a 1, :b {:c 1}}
+      (is (= {:params      {:a 1, :b {:c 1}}
               :body-params {:b {:c 1}}}
              @respond)))))
 
@@ -300,43 +300,43 @@
                 nil))]
 
     (testing "managed formats"
-      (app {:headers {"content-type" "application/edn; charset=utf-16"
-                      "accept" "application/transit+json, text/html, application/edn"
+      (app {:headers {"content-type"   "application/edn; charset=utf-16"
+                      "accept"         "application/transit+json, text/html, application/edn"
                       "accept-charset" "utf-16"}})
       (is (= [(m/map->FormatAndCharset
-                {:charset "utf-16"
-                 :format "application/edn"
+                {:charset    "utf-16"
+                 :format     "application/edn"
                  :raw-format "application/edn"})
               (m/map->FormatAndCharset
-                {:charset "utf-16"
-                 :format "application/transit+json"
+                {:charset    "utf-16"
+                 :format     "application/transit+json"
                  :raw-format "application/transit+json"})]
              @types)))
 
     (testing "pick default-charset if accepted, #79"
-      (app {:headers {"content-type" "application/cheese; charset=utf-16"
-                      "accept" "application/cake, text/html, application/edn"
+      (app {:headers {"content-type"   "application/cheese; charset=utf-16"
+                      "accept"         "application/cake, text/html, application/edn"
                       "accept-charset" "x-ibm300, cheese/cake, utf-8, ibm775"}})
       (is (= [(m/map->FormatAndCharset
-                {:charset "utf-16"
-                 :format nil
+                {:charset    "utf-16"
+                 :format     nil
                  :raw-format "application/cheese"})
               (m/map->FormatAndCharset
-                {:charset "utf-8" ;; the default
-                 :format "application/edn"
+                {:charset    "utf-8"                        ;; the default
+                 :format     "application/edn"
                  :raw-format "application/cake"})]
              @types)))
 
     (testing "non-managed formats"
-      (app {:headers {"content-type" "application/cheese; charset=utf-16"
-                      "accept" "application/cake, text/html, application/edn"
+      (app {:headers {"content-type"   "application/cheese; charset=utf-16"
+                      "accept"         "application/cake, text/html, application/edn"
                       "accept-charset" "utf-16"}})
       (is (= [(m/map->FormatAndCharset
-                {:charset "utf-16"
-                 :format nil
+                {:charset    "utf-16"
+                 :format     nil
                  :raw-format "application/cheese"})
               (m/map->FormatAndCharset
-                {:charset "utf-16"
-                 :format "application/edn"
+                {:charset    "utf-16"
+                 :format     "application/edn"
                  :raw-format "application/cake"})]
              @types)))))

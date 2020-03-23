@@ -1,8 +1,8 @@
-(defproject metosin/muuntaja-parent "0.0.0"
+(defproject gorillalabs/muuntaja-parent "0.0.0"
   :description "Clojure library for format encoding, decoding and content-negotiation"
-  :url "https://github.com/metosin/muuntaja"
+  :url "https://github.com/gorillalabs/muuntaja"
   :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v20.html"}
+            :url  "http://www.eclipse.org/legal/epl-v20.html"}
   :javac-options ["-Xlint:unchecked" "-target" "1.7" "-source" "1.7"]
   :java-source-paths ["src/java"]
   :dependencies []
@@ -13,11 +13,11 @@
                leiningen.v/dependency-version-from-scm
                leiningen.v/add-workspace-data]
 
-  :codox {:src-uri     "http://github.com/metosin/muuntaja/blob/master/{filepath}#L{line}"
+  :codox {:src-uri     "http://github.com/gorillalabs/muuntaja/blob/master/{filepath}#L{line}"
           :output-path "doc"
           :metadata    {:doc/format :markdown}}
   :scm {:name "git"
-        :url  "https://github.com/metosin/muuntaja"}
+        :url  "https://github.com/gorillalabs/muuntaja"}
   :deploy-repositories [["releases" :clojars]]
   :profiles {:dev     {:jvm-opts     ^:replace ["-server"]
 
@@ -33,10 +33,10 @@
                                       [ring/ring-json "0.5.0"]
 
                                       ;; modules
-                                      [metosin/muuntaja nil]
-                                      [metosin/muuntaja-cheshire nil]
-                                      [metosin/muuntaja-msgpack nil]
-                                      [metosin/muuntaja-yaml nil]
+                                      [gorillalabs/muuntaja nil]
+                                      [gorillalabs/muuntaja-cheshire nil]
+                                      [gorillalabs/muuntaja-msgpack nil]
+                                      [gorillalabs/muuntaja-yaml nil]
 
                                       ;; correct jackson
                                       [com.fasterxml.jackson.core/jackson-databind "2.10.0"]

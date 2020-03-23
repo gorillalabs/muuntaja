@@ -1,10 +1,10 @@
-(defproject metosin/muuntaja-msgpack "0.0.0" ;; use lein v
+(defproject gorillalabs/muuntaja-msgpack "0.0.0" ;; use lein v
   :description "Messagepack format for Muuntaja"
-  :url "https://github.com/metosin/muuntaja"
+  :url "https://github.com/gorillalabs/muuntaja"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :scm {:name "git"
-        :url "https://github.com/metosin/muuntaja"
+        :url "https://github.com/gorillalabs/muuntaja"
         :dir "../.."}
   :plugins [[lein-parent "0.3.2"]
             [com.roomkey/lein-v "7.0.0"]]
@@ -13,5 +13,5 @@
                leiningen.v/add-workspace-data]
   :parent-project {:path "../../project.clj"
                    :inherit [:deploy-repositories]}
-  :dependencies [[metosin/muuntaja]
+  :dependencies [[gorillalabs/muuntaja]
                  [clojure-msgpack "1.2.1" :exclusions [org.clojure/clojure]]])

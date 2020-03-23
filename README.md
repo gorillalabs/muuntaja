@@ -1,11 +1,20 @@
-# Muuntaja [![Continuous Integration status](https://secure.travis-ci.org/metosin/muuntaja.png)](http://travis-ci.org/metosin/muuntaja) [![cljdoc badge](https://cljdoc.xyz/badge/metosin/muuntaja)](https://cljdoc.xyz/jump/release/metosin/muuntaja)
+# Muuntaja 
+ 
+ 
+ [![Clojars Project](https://img.shields.io/clojars/v/gorillalabs/muuntaja.svg)](https://clojars.org/gorillalabs/muuntaja)
+ [![Build Status](https://travis-ci.org/gorillalabs/muuntaja.svg)](https://travis-ci.org/gorillalabs/muuntaja)
+ [![Dependencies Status](https://versions.deps.co/gorillalabs/muuntaja/status.svg)](https://versions.deps.co/gorillalabs/muuntaja)
+ [![Downloads](https://versions.deps.co/gorillalabs/muuntaja/downloads.svg)](https://versions.deps.co/gorillalabs/muuntaja)
+ [![cljdoc badge](https://cljdoc.xyz/badge/gorillalabs/muuntaja)](https://cljdoc.xyz/jump/release/gorillalabs/muuntaja)
 
-<img src="https://raw.githubusercontent.com/metosin/muuntaja/master/doc/images/muuntaja-small.png" align="right"/>
+<img src="https://raw.githubusercontent.com/gorillalabs/muuntaja/master/doc/images/muuntaja-small.png" align="right"/>
 
-Clojure library for fast http format negotiation, encoding and decoding. Standalone library, but ships with adapters for ring (async) middleware & Pedestal-style interceptors. Explicit & extendable, supporting out-of-the-box [JSON](http://www.json.org/), [EDN](https://github.com/edn-format/edn) and [Transit](https://github.com/cognitect/transit-format) (both JSON & Msgpack). Ships with optional adapters for [MessagePack](http://msgpack.org/) and [YAML](http://yaml.org/).
+Clojure library (fork of [metosing/muuntaja](https://github.com/metosin/muuntaja)) for fast http format negotiation, encoding and decoding. Standalone library, but ships with adapters for ring (async) middleware & Pedestal-style interceptors. Explicit & extendable, supporting out-of-the-box [JSON](http://www.json.org/), [EDN](https://github.com/edn-format/edn) and [Transit](https://github.com/cognitect/transit-format) (both JSON & Msgpack). Ships with optional adapters for [MessagePack](http://msgpack.org/) and [YAML](http://yaml.org/).
 
 Based on [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format),
 but a complete rewrite ([and up to 30x faster](doc/Performance.md)).
+
+Can be used server-side and client-side.
 
 ## Rationale
 
@@ -32,17 +41,13 @@ for detailed API documentation as well as more guides on how to use Muuntaja.
 
 ## Latest version
 
-```clj
-[metosin/muuntaja "0.6.6"]
-```
+ [![Clojars Project](https://img.shields.io/clojars/v/gorillalabs/muuntaja.svg)](https://clojars.org/gorillalabs/muuntaja)
 
 Optionally, the parts can be required separately:
 
-```clj
-[metosin/muuntaja-cheshire "0.6.6"]
-[metosin/muuntaja-msgpack "0.6.6"]
-[metosin/muuntaja-yaml "0.6.6"]
-```
+ [![Clojars Project](https://img.shields.io/clojars/v/gorillalabs/muuntaja-cheshire.svg)](https://clojars.org/gorillalabs/muuntaja-cheshire)
+ [![Clojars Project](https://img.shields.io/clojars/v/gorillalabs/muuntaja-msgpack.svg)](https://clojars.org/gorillalabs/muuntaja-msgpack)
+ [![Clojars Project](https://img.shields.io/clojars/v/gorillalabs/muuntaja-yaml.svg)](https://clojars.org/gorillalabs/muuntaja-yaml)
 
 Muuntaja requires Java 1.8+
 

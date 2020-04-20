@@ -54,3 +54,9 @@
     {:name "application/json"
      :decoder [decoder {:decode-key-fn true}]
      :encoder [encoder]}))
+
+(def no-keyfn-format
+  (core/map->Format
+    {:name "application/json"
+     :decoder [decoder]
+     :encoder [encoder]}))

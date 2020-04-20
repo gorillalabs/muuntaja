@@ -10,3 +10,4 @@ pom.xml*
 \#*\#
 pom.properties
 leiningen.core.classpath.extract-native-dependencies
+modules/**/target/*.jar.asc
